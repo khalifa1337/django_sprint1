@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title%}
-Лента записей
+  Лента записей
 {% endblock %}
 {% block content %}
   <div class="container py-5">
@@ -16,13 +16,21 @@
             {{ element.date }}
           </li>
           <li>
-            Категория: <a href="{% url 'blog:category_posts' element.category %}"> {{ element.category }}</a>
+            Категория:  <a 
+                          href="{% url 'blog:category_posts' element.category %}"
+                          > 
+                          {{ element.category }}
+                        </a>
           </li>
         </ul>          
         <p>
           {{ element.text|truncatewords:10 }}
         </p>
-        <a href="{% url 'blog:post_detail' element.id %}">Читать полный текст</a>
+        <a 
+          href="{% url 'blog:post_detail' element.id %}"
+          >
+          Читать полный текст
+        </a>
       </article>
       {% if not forloop.last %}
         <hr>

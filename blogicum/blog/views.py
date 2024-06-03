@@ -1,6 +1,8 @@
 from django.shortcuts import render
-
-posts = [
+"""
+Список с информацией дял постов.
+"""
+posts: list = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -44,28 +46,22 @@ posts = [
 ]
 
 
-def posts_list(request):
-
-    context = {
-        'posts': posts
-    }
-    return render(request, 'blog/post_detail.html', context)
-
-
-# Create your views here.
 def index(request):
-    context = {
-        'posts': posts
-    }
-    template = 'blog/index.html'
+    """Функция для отображения главной страницы."""
+    template: str = 'blog/index.html'
+    context: dict = {'posts': posts}
     return render(request, template, context)
+
 
 def post_detail(request, id):
-    template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    """Функция для отображения страницы с содержимым поста."""
+    template: str = 'blog/detail.html'
+    context: dict = {'post': posts[id]}
     return render(request, template, context)
 
+
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
-    context = {'category': category_slug}
+    """Функция для отображения страницы с категорией."""
+    template: str = 'blog/category.html'
+    context: dict = {'category': category_slug}
     return render(request, template, context)
