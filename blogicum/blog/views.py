@@ -1,8 +1,10 @@
+from django.http import Http404
 from django.shortcuts import render
+
 """
 Список с информацией дял постов.
 """
-posts: list = [
+posts = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -47,20 +49,30 @@ posts: list = [
 
 content_for_posts = {post['id']:
                      {key: value for key, value in post.items() if key != 'id'}
-                     for post in posts}
+                     for post in posts[::-1]}
 
 
 def index(request):
     """Функция для отображения главной страницы."""
     template: str = 'blog/index.html'
-    context: dict = {'posts': reversed(content_for_posts)}
+    context = {'posts': content_for_posts}
     return render(request, template, context)
 
 
 def post_detail(request, post_id):
     """Функция для отображения страницы с содержимым поста."""
     template: str = 'blog/detail.html'
-    context: dict = {'post': content_for_posts[post_id]}
+    try:
+        """
+        Пластмассовый мир победил - Pytest оказался сильней :(
+        Если отправить напрямую в post словарь content_for_posts,
+        то не пройдет тест, так как ищет в посылаемом контексте словарь с 'id'.
+        Добавить еще элемент в словарь контекста - слишком переписывать шаблон
+        и, в том числе, посылать "излишние" данные.
+        """
+        context: dict = {'post': posts[post_id]}
+    except KeyError:
+        raise Http404('Poll does not exist')
     return render(request, template, context)
 
 
