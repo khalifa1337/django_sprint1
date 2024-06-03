@@ -45,18 +45,22 @@ posts: list = [
     },
 ]
 
+content_for_posts = {post['id']:
+                     {key: value for key, value in post.items() if key != 'id'}
+                     for post in posts}
+
 
 def index(request):
     """Функция для отображения главной страницы."""
     template: str = 'blog/index.html'
-    context: dict = {'posts': reversed(posts)}
+    context: dict = {'posts': reversed(content_for_posts)}
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     """Функция для отображения страницы с содержимым поста."""
     template: str = 'blog/detail.html'
-    context: dict = {'post': posts[id]}
+    context: dict = {'post': content_for_posts[post_id]}
     return render(request, template, context)
 
 
