@@ -49,7 +49,7 @@ posts: list = [
 def index(request):
     """Функция для отображения главной страницы."""
     template: str = 'blog/index.html'
-    context: dict = {'posts': posts}
+    context: dict = {'posts': reversed(posts)}
     return render(request, template, context)
 
 
