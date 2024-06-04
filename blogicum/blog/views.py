@@ -48,7 +48,7 @@ posts = [
 ]
 
 content_for_posts = {post['id']:
-                     {key: value for key, value in post.items() if key != 'id'}
+                     {key: value for key, value in post.items()}
                      for post in posts[::-1]}
 
 
@@ -63,14 +63,7 @@ def post_detail(request, post_id):
     """Функция для отображения страницы с содержимым поста."""
     template: str = 'blog/detail.html'
     try:
-        """
-        Пластмассовый мир победил - Pytest оказался сильней :(
-        Если отправить напрямую в post словарь content_for_posts,
-        то не пройдет тест, так как ищет в посылаемом контексте словарь с 'id'.
-        Добавить еще элемент в словарь контекста - слишком переписывать шаблон
-        и, в том числе, посылать "излишние" данные.
-        """
-        context: dict = {'post': posts[post_id]}
+        context: dict = {'post': content_for_posts[post_id]}
     except KeyError:
         raise Http404('Poll does not exist')
     return render(request, template, context)
