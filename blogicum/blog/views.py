@@ -47,9 +47,7 @@ posts = [
     },
 ]
 
-content_for_posts = {post['id']:
-                     {key: value for key, value in post.items()}
-                     for post in posts[::-1]}
+content_for_posts = {post['id']: post for post in posts}
 
 
 def index(request):
